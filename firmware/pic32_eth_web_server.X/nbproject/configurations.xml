@@ -41,20 +41,6 @@
         <itemPath>../src/streamer.h</itemPath>
         <itemPath>../src/ws_server.h</itemPath>
       </logicalFolder>
-      <logicalFolder name="bsp" displayName="bsp" projectFiles="true">
-        <logicalFolder name="f4" displayName="pic32mx_eth_sk" projectFiles="true">
-          <itemPath>../../../../../bsp/pic32mx_eth_sk/bsp_config.h</itemPath>
-        </logicalFolder>
-        <logicalFolder name="f1" displayName="pic32mx_eth_sk2" projectFiles="true">
-          <itemPath>../../../../../bsp/pic32mx_eth_sk2/bsp_config.h</itemPath>
-        </logicalFolder>
-        <logicalFolder name="f5" displayName="pic32mz_da_sk" projectFiles="true">
-          <itemPath>../../../../../bsp/pic32mz_da_sk/bsp_config.h</itemPath>
-        </logicalFolder>
-        <logicalFolder name="f3" displayName="pic32mz_ec_sk" projectFiles="true">
-          <itemPath>../../../../../bsp/pic32mz_ec_sk/bsp_config.h</itemPath>
-        </logicalFolder>
-      </logicalFolder>
       <logicalFolder name="framework" displayName="framework" projectFiles="true">
         <logicalFolder name="f1" displayName="crypto" projectFiles="true">
           <logicalFolder name="f1" displayName="src" projectFiles="true">
@@ -518,20 +504,6 @@
         <itemPath>../src/custom_http_app.c</itemPath>
         <itemPath>../src/mpfs_img2.c</itemPath>
       </logicalFolder>
-      <logicalFolder name="bsp" displayName="bsp" projectFiles="true">
-        <logicalFolder name="f4" displayName="pic32mx_eth_sk" projectFiles="true">
-          <itemPath>../../../../../bsp/pic32mx_eth_sk/bsp_sys_init.c</itemPath>
-        </logicalFolder>
-        <logicalFolder name="f1" displayName="pic32mx_eth_sk2" projectFiles="true">
-          <itemPath>../../../../../bsp/pic32mx_eth_sk2/bsp_sys_init.c</itemPath>
-        </logicalFolder>
-        <logicalFolder name="f5" displayName="pic32mz_da_sk" projectFiles="true">
-          <itemPath>../../../../../bsp/pic32mz_da_sk/bsp_sys_init.c</itemPath>
-        </logicalFolder>
-        <logicalFolder name="f3" displayName="pic32mz_ec_sk" projectFiles="true">
-          <itemPath>../../../../../bsp/pic32mz_ec_sk/bsp_sys_init.c</itemPath>
-        </logicalFolder>
-      </logicalFolder>
       <logicalFolder name="framework" displayName="framework" projectFiles="true">
         <logicalFolder name="f1" displayName="crypto" projectFiles="true">
           <logicalFolder name="f1" displayName="src" projectFiles="true">
@@ -852,134 +824,6 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
-      <item path="../../../../../bsp/pic32mx_eth_sk/bsp_config.h"
-            ex="true"
-            overriding="false">
-        <C32>
-        </C32>
-        <C32-AR>
-        </C32-AR>
-        <C32-AS>
-        </C32-AS>
-        <C32-LD>
-        </C32-LD>
-        <C32CPP>
-        </C32CPP>
-        <C32Global>
-        </C32Global>
-      </item>
-      <item path="../../../../../bsp/pic32mx_eth_sk/bsp_sys_init.c"
-            ex="true"
-            overriding="false">
-        <C32>
-        </C32>
-        <C32-AR>
-        </C32-AR>
-        <C32-AS>
-        </C32-AS>
-        <C32-LD>
-        </C32-LD>
-        <C32CPP>
-        </C32CPP>
-        <C32Global>
-        </C32Global>
-      </item>
-      <item path="../../../../../bsp/pic32mx_eth_sk2/bsp_config.h"
-            ex="true"
-            overriding="false">
-        <C32>
-        </C32>
-        <C32-AR>
-        </C32-AR>
-        <C32-AS>
-        </C32-AS>
-        <C32-LD>
-        </C32-LD>
-        <C32CPP>
-        </C32CPP>
-        <C32Global>
-        </C32Global>
-      </item>
-      <item path="../../../../../bsp/pic32mx_eth_sk2/bsp_sys_init.c"
-            ex="true"
-            overriding="false">
-        <C32>
-        </C32>
-        <C32-AR>
-        </C32-AR>
-        <C32-AS>
-        </C32-AS>
-        <C32-LD>
-        </C32-LD>
-        <C32CPP>
-        </C32CPP>
-        <C32Global>
-        </C32Global>
-      </item>
-      <item path="../../../../../bsp/pic32mz_da_sk/bsp_config.h"
-            ex="true"
-            overriding="false">
-        <C32>
-        </C32>
-        <C32-AR>
-        </C32-AR>
-        <C32-AS>
-        </C32-AS>
-        <C32-LD>
-        </C32-LD>
-        <C32CPP>
-        </C32CPP>
-        <C32Global>
-        </C32Global>
-      </item>
-      <item path="../../../../../bsp/pic32mz_da_sk/bsp_sys_init.c"
-            ex="true"
-            overriding="false">
-        <C32>
-        </C32>
-        <C32-AR>
-        </C32-AR>
-        <C32-AS>
-        </C32-AS>
-        <C32-LD>
-        </C32-LD>
-        <C32CPP>
-        </C32CPP>
-        <C32Global>
-        </C32Global>
-      </item>
-      <item path="../../../../../bsp/pic32mz_ec_sk/bsp_config.h"
-            ex="true"
-            overriding="false">
-        <C32>
-        </C32>
-        <C32-AR>
-        </C32-AR>
-        <C32-AS>
-        </C32-AS>
-        <C32-LD>
-        </C32-LD>
-        <C32CPP>
-        </C32CPP>
-        <C32Global>
-        </C32Global>
-      </item>
-      <item path="../../../../../bsp/pic32mz_ec_sk/bsp_sys_init.c"
-            ex="true"
-            overriding="false">
-        <C32>
-        </C32>
-        <C32-AR>
-        </C32-AR>
-        <C32-AS>
-        </C32-AS>
-        <C32-LD>
-        </C32-LD>
-        <C32CPP>
-        </C32CPP>
-        <C32Global>
-        </C32Global>
-      </item>
       <item path="../../../../../framework/crypto/src/random.c"
             ex="true"
             overriding="false">
@@ -1705,6 +1549,7 @@
         <property key="ToolFirmwareFilePath"
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="memories.configurationmemory" value="true"/>
         <property key="memories.dataflash" value="true"/>
         <property key="memories.eeprom" value="true"/>
