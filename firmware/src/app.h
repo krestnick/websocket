@@ -131,6 +131,10 @@ typedef WDRV_ADHOC_NETWORK_CONTEXT WF_ADHOC_NETWORK_CONTEXT;
 
 #endif /* Wi-Fi Interface */
 
+#define APP_LED_1 BSP_LED_1
+#define APP_LED_2 BSP_LED_2
+#define APP_LED_3 BSP_LED_3
+
 /* It is intentionally declared this way to sync with DRV_WIFI_DEVICE_TYPES. */
 typedef enum {
     MRF24WG_MODULE = 2,
@@ -215,11 +219,6 @@ typedef struct
     APP_STATE state;
 
     /* application data buffer */
-    //uint8_t data[64];
-
-    //uint32_t nBytesWritten;
-
-    //uint32_t nBytesRead;
 } APP_DATA;
 
 typedef struct {

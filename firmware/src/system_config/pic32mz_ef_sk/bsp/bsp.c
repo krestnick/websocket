@@ -243,10 +243,10 @@ BSP_LED_STATE BSP_LEDStateGet (BSP_LED led)
     /* Get LED Status */
     value = PLIB_PORTS_PinGetLatched (PORTS_ID_0, led_port_channel_map[led], led_port_bit_pos_map[led]);
 
-    if(led_active_level_map[led] == BSP_LED_ACTIVE_LOW)
-    {
-        value = !value;
-    }
+//    if(led_active_level_map[led] == BSP_LED_ACTIVE_LOW)
+//    {
+//        value = !value;
+//    }
 
     return (value ? BSP_LED_STATE_ON : BSP_LED_STATE_OFF);
 }
@@ -395,6 +395,13 @@ void BSP_Initialize(void )
     BSP_LEDOff(BSP_LED_1);
     BSP_LEDOff(BSP_LED_2);
     BSP_LEDOff(BSP_LED_3);
+    
+    PLIB_PORTS_PinDirectionOutputSet(PORTS_ID_0 , led_port_channel_map[0], led_port_bit_pos_map[0]);
+    PLIB_PORTS_PinDirectionOutputSet(PORTS_ID_0 , led_port_channel_map[1], led_port_bit_pos_map[1]);
+    PLIB_PORTS_PinDirectionOutputSet(PORTS_ID_0 , led_port_channel_map[2], led_port_bit_pos_map[2]);
+    
+    PLIB_PORTS_PinDirectionInputSet(PORTS_ID_0 ,  switch_port_channel_map[0] , switch_port_bit_pos_map[0]);
+    PLIB_PORTS_PinDirectionInputSet(PORTS_ID_0 ,  switch_port_channel_map[1] , switch_port_bit_pos_map[1]);
 }
 
 /*******************************************************************************

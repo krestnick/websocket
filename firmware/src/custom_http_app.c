@@ -140,14 +140,12 @@ HTTP_IO_RESULT TCPIP_HTTP_GetExecute(HTTP_CONN_HANDLE connHandle)
     {
         // Seek out each of the four LED strings, and if it exists set the LED states.
         ptr = TCPIP_HTTP_ArgGet(httpDataBuff, (const uint8_t *)"led2");
-//        if(ptr)
-//            BSP_LEDStateSet(APP_LED_3, (*ptr == '1'));
-            //LED2_IO = (*ptr == '1');
+        if(ptr)
+            BSP_LEDStateSet(APP_LED_3, (*ptr == '1'));
 
         ptr = TCPIP_HTTP_ArgGet(httpDataBuff, (const uint8_t *)"led1");
-//        if(ptr)
-//            BSP_LEDStateSet(APP_LED_2, (*ptr == '1'));
-            //LED1_IO = (*ptr == '1');
+        if(ptr)
+            BSP_LEDStateSet(APP_LED_2, (*ptr == '1'));
     }
 
     else if(!memcmp(filename, "cookies.htm", 11))
@@ -169,17 +167,13 @@ HTTP_IO_RESULT TCPIP_HTTP_GetExecute(HTTP_CONN_HANDLE connHandle)
         // Toggle the specified LED.
         switch(*ptr) {
             case '0':
-
-//                BSP_LEDToggle(APP_LED_1);
-                //LED0_IO ^= 1;
+                BSP_LEDToggle(APP_LED_1);
                 break;
             case '1':
-//                BSP_LEDToggle(APP_LED_2);
-                //LED1_IO ^= 1;
+                BSP_LEDToggle(APP_LED_2);
                 break;
             case '2':
-//                BSP_LEDToggle(APP_LED_3);
-                //LED2_IO ^= 1;
+                BSP_LEDToggle(APP_LED_3);
                 break;
         }
     }
@@ -1029,11 +1023,11 @@ static HTTP_IO_RESULT HTTPPostEmail(HTTP_CONN_HANDLE connHandle)
             // Write the header and button strings
             TCPIP_SMTP_StringPut("SYSTEM STATUS\r\n");
             TCPIP_SMTP_StringPut("Buttons:,");
-//            TCPIP_SMTP_Put(APP_SWITCH_1StateGet() + '0');
+            TCPIP_SMTP_Put(BSP_SwitchStateGet(BSP_SWITCH_1) + '0');
             TCPIP_SMTP_Put(',');
-//            TCPIP_SMTP_Put(APP_SWITCH_2StateGet() + '0');
+            TCPIP_SMTP_Put(BSP_SwitchStateGet(BSP_SWITCH_2) + '0');
             TCPIP_SMTP_Put(',');
-//            TCPIP_SMTP_Put(APP_SWITCH_3StateGet() + '0');
+            TCPIP_SMTP_Put(BSP_SwitchStateGet(BSP_SWITCH_2) + '0');
             TCPIP_SMTP_Put('\r');
             TCPIP_SMTP_Put('\n');
             TCPIP_SMTP_Flush();
@@ -1055,11 +1049,11 @@ static HTTP_IO_RESULT HTTPPostEmail(HTTP_CONN_HANDLE connHandle)
 
             // Write the header and button strings
             TCPIP_SMTP_StringPut("LEDs:,");
-//            TCPIP_SMTP_Put(BSP_LEDStateGet(APP_LED_1) + '0');
+            TCPIP_SMTP_Put(BSP_LEDStateGet(APP_LED_1) + '0');
             TCPIP_SMTP_Put(',');
-//            TCPIP_SMTP_Put(BSP_LEDStateGet(APP_LED_2) + '0');
+            TCPIP_SMTP_Put(BSP_LEDStateGet(APP_LED_2) + '0');
             TCPIP_SMTP_Put(',');
-//            TCPIP_SMTP_Put(BSP_LEDStateGet(APP_LED_3) + '0');
+            TCPIP_SMTP_Put(BSP_LEDStateGet(APP_LED_3) + '0');
             TCPIP_SMTP_Put('\r');
             TCPIP_SMTP_Put('\n');
             TCPIP_SMTP_Flush();
@@ -1426,13 +1420,13 @@ void TCPIP_HTTP_Print_btn(HTTP_CONN_HANDLE connHandle, uint16_t num)
     switch(num)
     {
         case 0:
-//            num = APP_SWITCH_1StateGet();
+            num = BSP_SwitchStateGet(BSP_SWITCH_1);
             break;
         case 1:
-//            num = APP_SWITCH_2StateGet();
+            num = BSP_SwitchStateGet(BSP_SWITCH_2);
             break;
         case 2:
-//            num = APP_SWITCH_3StateGet();
+            num = BSP_SwitchStateGet(BSP_SWITCH_2);
             break;
         default:
             num = 0;
@@ -1448,13 +1442,13 @@ void TCPIP_HTTP_Print_led(HTTP_CONN_HANDLE connHandle, uint16_t num)
     switch(num)
     {
         case 0:
-//            num = BSP_LEDStateGet(APP_LED_1);
+            num = BSP_LEDStateGet(APP_LED_1);
             break;
         case 1:
-//            num = BSP_LEDStateGet(APP_LED_2);
+            num = BSP_LEDStateGet(APP_LED_2);
             break;
         case 2:
-//            num = BSP_LEDStateGet(APP_LED_3);
+            num = BSP_LEDStateGet(APP_LED_3);
             break;
         default:
             num = 0;
@@ -1470,13 +1464,13 @@ void TCPIP_HTTP_Print_ledSelected(HTTP_CONN_HANDLE connHandle, uint16_t num, uin
     switch(num)
     {
         case 0:
-//            num = BSP_LEDStateGet(APP_LED_1);
+            num = BSP_LEDStateGet(APP_LED_1);
             break;
         case 1:
-//            num = BSP_LEDStateGet(APP_LED_2);
+            num = BSP_LEDStateGet(APP_LED_2);
             break;
         case 2:
-//            num = BSP_LEDStateGet(APP_LED_3);
+            num = BSP_LEDStateGet(APP_LED_3);
             break;
         default:
             num = 0;

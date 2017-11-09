@@ -695,6 +695,7 @@
             <itemPath>../../../../../framework/tcpip/src/tcpip_manager.c</itemPath>
             <itemPath>../../../../../framework/tcpip/src/tcpip_notify.c</itemPath>
             <itemPath>../../../../../framework/tcpip/src/tcpip_packet.c</itemPath>
+            <itemPath>../../../../../framework/tcpip/src/icmp.c</itemPath>
           </logicalFolder>
           <logicalFolder name="stack" displayName="stack" projectFiles="true">
             <itemPath>../../../../../framework/tcpip/src/zero_conf_multicast_dns.c</itemPath>
@@ -1112,7 +1113,7 @@
         <C32Global>
         </C32Global>
       </item>
-      <item path="../src/websocket.c" ex="false" overriding="true">
+      <item path="../src/websocket.c" ex="false" overriding="false">
         <C32>
           <property key="additional-warnings" value="true"/>
           <property key="enable-app-io" value="false"/>
@@ -1209,7 +1210,7 @@
           <property key="wpo-lto" value="false"/>
         </C32Global>
       </item>
-      <item path="../src/websocket_thread.c" ex="false" overriding="true">
+      <item path="../src/websocket_thread.c" ex="false" overriding="false">
         <C32>
           <property key="additional-warnings" value="true"/>
           <property key="enable-app-io" value="false"/>

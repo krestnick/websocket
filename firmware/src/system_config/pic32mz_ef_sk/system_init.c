@@ -583,9 +583,15 @@ const TCPIP_NETWORK_CONFIG __attribute__((unused))  TCPIP_HOSTS_CONFIGURATION[] 
     },
 };
 
+/*** ICMP Server Initialization Data ***/
+const TCPIP_ICMP_MODULE_CONFIG tcpipICMPInitData = 
+{
+};
+
 const TCPIP_STACK_MODULE_CONFIG TCPIP_STACK_MODULE_CONFIG_TBL [] =
 {
     {TCPIP_MODULE_IPV4,             0},
+    {TCPIP_MODULE_ICMP,             0},                             // TCPIP_MODULE_ICMP
     {TCPIP_MODULE_ARP,              &tcpipARPInitData},             // TCPIP_MODULE_ARP
     {TCPIP_MODULE_IPV6,             &tcpipIPv6InitData},            // TCPIP_MODULE_IPV6
     {TCPIP_MODULE_ICMPV6,           0},                             // TCPIP_MODULE_ICMPV6
@@ -666,10 +672,7 @@ void SYS_Initialize ( void* data )
     SYS_DEVCON_PerformanceConfig(SYS_CLK_SystemFrequencyGet());
     SYS_DEVCON_JTAGEnable();
     SYS_PORTS_Initialize();
-
-    /* Board Support Package Initialization */
-//    BSP_Initialize();        
-
+      
     /* Initialize Drivers */
     /* Initialize the MIIM Driver */
     sysObj.drvMiim = DRV_MIIM_Initialize(DRV_MIIM_INDEX_0, (const SYS_MODULE_INIT  * const)&drvMiimInitData);
@@ -728,7 +731,9 @@ void SYS_Initialize ( void* data )
     sysObj.tcpip = TCPIP_STACK_Init();
     SYS_ASSERT(sysObj.tcpip != SYS_MODULE_OBJ_INVALID, "TCPIP_STACK_Init Failed" );
 
-
+    /* Board Support Package Initialization */
+    BSP_Initialize();  
+    
     /* Initialize the Application */
     APP_Initialize();
     STREAMER_Initialize();

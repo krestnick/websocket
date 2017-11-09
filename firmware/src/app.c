@@ -63,7 +63,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 */
 APP_DATA appData;
 
-//BSP_LED_STATE LEDstate = BSP_LED_STATE_OFF;
 
 #if defined(TCPIP_IF_MRF24W) || defined(TCPIP_IF_MRF24WN)
 static const bool s_app_wifi = true;
@@ -209,13 +208,7 @@ void APP_Tasks ( void )
             if(SYS_TMR_TickCountGet() - startTick >= SYS_TMR_TickCounterFrequencyGet()/2ul)
             {
                 startTick = SYS_TMR_TickCountGet();
-//                LEDstate ^= BSP_LED_STATE_ON;
-                // This is a temporary work-around
-#if defined(EX16)
-                BSP_LEDStateSet(APP_TCPIP_LED_1, LEDstate);
-#else
-//                BSP_LEDStateSet(APP_TCPIP_LED_3, LEDstate);
-#endif
+                BSP_LEDToggle(APP_LED_1);
             }
 
             // if the IP address of an interface has changed

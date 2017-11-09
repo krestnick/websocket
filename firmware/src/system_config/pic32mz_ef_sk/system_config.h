@@ -689,6 +689,13 @@ extern "C" {
 #define TCPIP_STACK_COMMANDS_ICMP_ECHO_REQUEST_DATA_SIZE    100
 
 
+    
+/*** ICMPv4 Client Configuration ***/
+#define TCPIP_STACK_USE_ICMP_CLIENT
+#define TCPIP_ICMP_CLIENT_USER_NOTIFICATION   true
+#define TCPIP_ICMP_ECHO_REQUEST_TIMEOUT       500
+#define TCPIP_ICMP_TASK_TICK_RATE             33
+    
 /*** IPv4 Configuration ***/
 
 /*** TCPIP SYS FS Wrapper ***/

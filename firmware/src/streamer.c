@@ -167,7 +167,14 @@ void STREAMER_Tasks(void)
             DataString[0] = 0;
             for (ix = 0; ix < 4; ix++)
             {
-                Value = (uint16_t) count; //SYS_RANDOM_PseudoGet();
+                if(BSP_SwitchStateGet(BSP_SWITCH_1))
+                {
+                    Value = (uint16_t) SYS_RANDOM_PseudoGet();
+                }
+                else
+                {
+                    Value = (uint16_t) count;
+                }
                 count += 4000;
                 uitoa(Value, (uint8_t *) SingleNumberString);
                 strcat(DataString, SingleNumberString);
