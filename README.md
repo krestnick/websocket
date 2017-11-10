@@ -9,10 +9,16 @@ Order at: https://octopart.com/search?q=%20DM320007&start=0
 
 A USB cable Mini B for programming and power supply and a RJ45, which is switched from the PIC board directly to the PC. No switch or network necessary. (If necessary, another mini B for UART debug issues (is chic, but also goes without))
 
+![Terminal](Terminal_s.png)
+
 You can see the standard website from the Harmony TCPIP Stack. So you can see how an embedded webserver looks like.
 Extended with a so-called Websocket. This can be used to create an asynchronous connection between a Javascript based web interface and the embedded client. 
 
+![Webpage](Webpage_s.png)
+
 It is shown how a data stream generated in the PIC (at first only a noise) and is transmitted to the browser and displayed there graphically (Flot with JQuery). Pressing the switch on the board turns the noise into a ramp.
+
+![Websocket](Realtime_Websocket_s.png)
 
 An online oscilloscope, so to speak.
 
