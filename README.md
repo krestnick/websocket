@@ -1,5 +1,7 @@
 A video says more like a thousand pictures http://vimeo.com/242098558
 
+This is the basis of any interactive Webinterface controlling embedded systems asynchronously in real-time with no server in between.
+
 The demo setup is a Standard PIC32MZ Embedded Connectivity with FPU (EF) Starter Kit: Part Number: DM320007
 ![DM320007](MZ_Eth_s.png)
 
