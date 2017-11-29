@@ -26,7 +26,6 @@
 <a href="/dyndns">Dynamic DNS</a>
 <a href="/protect/config.htm">Network Configuration</a>
 <a href="/snmp/snmpconfig.htm">SNMP Configuration</a>
-<a href="/chart/realtime.html">Realtime Data Streaming</a>
-<a href="/ws/client.html">Websocket Test</a>
-<a href="/chart/ws_realtime.html">Realtime Websocket Stream</a>
+<a href="/chart/realtime.html">Realtime Data Streaming with JSON</a>
+<a href="/chart/ws_realtime.html">Realtime Data Streaming with Websocket</a>
 </div>

@@ -681,6 +681,7 @@
             <itemPath>../../../../../framework/tcpip/src/dhcp.c</itemPath>
             <itemPath>../../../../../framework/tcpip/src/dns.c</itemPath>
             <itemPath>../../../../../framework/tcpip/src/http.c</itemPath>
+            <itemPath>../../../../../framework/tcpip/src/icmp.c</itemPath>
             <itemPath>../../../../../framework/tcpip/src/nbns.c</itemPath>
             <itemPath>../../../../../framework/tcpip/src/smtp.c</itemPath>
             <itemPath>../../../../../framework/tcpip/src/sntp.c</itemPath>
@@ -695,7 +696,6 @@
             <itemPath>../../../../../framework/tcpip/src/tcpip_manager.c</itemPath>
             <itemPath>../../../../../framework/tcpip/src/tcpip_notify.c</itemPath>
             <itemPath>../../../../../framework/tcpip/src/tcpip_packet.c</itemPath>
-            <itemPath>../../../../../framework/tcpip/src/icmp.c</itemPath>
           </logicalFolder>
           <logicalFolder name="stack" displayName="stack" projectFiles="true">
             <itemPath>../../../../../framework/tcpip/src/zero_conf_multicast_dns.c</itemPath>
@@ -724,6 +724,23 @@
         <itemPath>../../../../../third_party/rtos/FreeRTOS/Source/tasks.c</itemPath>
         <itemPath>../../../../../third_party/rtos/FreeRTOS/Source/timers.c</itemPath>
         <itemPath>../../../../../third_party/rtos/FreeRTOS/Source/event_groups.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f3" displayName="Webpages" projectFiles="true">
+        <logicalFolder name="f1" displayName="chart" projectFiles="true">
+          <itemPath>../src/web_pages/chart/realtime.html</itemPath>
+          <itemPath>../src/web_pages/chart/ws_realtime.html</itemPath>
+        </logicalFolder>
+        <itemPath>../src/web_pages/auth.htm</itemPath>
+        <itemPath>../src/web_pages/cookies.htm</itemPath>
+        <itemPath>../src/web_pages/dynvars.htm</itemPath>
+        <itemPath>../src/web_pages/footer.inc</itemPath>
+        <itemPath>../src/web_pages/forms.htm</itemPath>
+        <itemPath>../src/web_pages/header.inc</itemPath>
+        <itemPath>../src/web_pages/index.htm</itemPath>
+        <itemPath>../src/web_pages/mchp.css</itemPath>
+        <itemPath>../src/web_pages/mchp.js</itemPath>
+        <itemPath>../src/web_pages/status.xml</itemPath>
+        <itemPath>../src/web_pages/upload.htm</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="websocket" projectFiles="true">
         <itemPath>../src/websocket.c</itemPath>
@@ -795,7 +812,7 @@
         <targetDevice>PIC32MZ2048EFH144</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>Simulator</platformTool>
+        <platformTool>PKOBSKDEPlatformTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>1.44</languageToolchainVersion>
         <platform>3</platform>
@@ -828,18 +845,6 @@
       <item path="../../../../../framework/crypto/src/random.c"
             ex="true"
             overriding="false">
-        <C32>
-        </C32>
-        <C32-AR>
-        </C32-AR>
-        <C32-AS>
-        </C32-AS>
-        <C32-LD>
-        </C32-LD>
-        <C32CPP>
-        </C32CPP>
-        <C32Global>
-        </C32Global>
       </item>
       <item path="../../../../../framework/driver/ethphy/src/dynamic/drv_extphy_dp83848.c"
             ex="true"
@@ -1316,7 +1321,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
         <property key="extra-include-directories"
-                  value="../src;../../../../../framework;../src/system_config/pic32mz_ef_sk/framework;../src/pic32mz_ef_sk;../src/system_config/pic32mz_ef_sk;../src/system_config/pic32mz_ef_sk/bsp;../../../../../third_party/rtos/FreeRTOS/Source/include;../../../../../third_party/rtos/FreeRTOS/Source/portable/MPLAB/PIC32MZ"/>
+                  value="../src;../src/system_config/pic32mz_ef_sk;../src/pic32mz_ef_sk;../../../../../framework;../src/system_config/pic32mz_ef_sk/framework;../src/system_config/pic32mz_ef_sk/bsp;../../../../../third_party/rtos/FreeRTOS/Source/include;../../../../../third_party/rtos/FreeRTOS/Source/portable/MPLAB/PIC32MZ"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="true"/>
@@ -1550,6 +1555,7 @@
         <property key="ToolFirmwareFilePath"
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="memories.configurationmemory" value="true"/>
         <property key="memories.dataflash" value="true"/>
         <property key="memories.eeprom" value="true"/>
@@ -1592,6 +1598,13 @@
         <property key="periphComp6.gte" value="gt"/>
         <property key="reset.scl" value="false"/>
         <property key="reset.type" value="MCLR"/>
+        <property key="tracecontrol.include.timestamp" value="summarydataenabled"/>
+        <property key="tracecontrol.select" value="0"/>
+        <property key="tracecontrol.stallontracebufferfull" value="false"/>
+        <property key="tracecontrol.timestamp" value="0"/>
+        <property key="tracecontrol.tracebufmax" value="546000"/>
+        <property key="tracecontrol.tracefile" value="defmplabxtrace.log"/>
+        <property key="tracecontrol.traceresetonrun" value="false"/>
         <property key="uart0io.output" value="window"/>
         <property key="uart0io.outputfile" value=""/>
         <property key="uart0io.uartioenabled" value="false"/>
