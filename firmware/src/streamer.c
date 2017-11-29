@@ -182,7 +182,7 @@ void STREAMER_Tasks(void)
             }
             DataString[strlen(DataString) - 1] = 0;
 
-            wsSendDataCallback((const uint8_t*) DataString, strlen(DataString));
+            WS_SendDataCallback((const uint8_t*) DataString, strlen(DataString));
         }
         vTaskDelay(ws_serverData.delay);
         break;

@@ -71,7 +71,7 @@ static const char versionField[] PROGMEM = "Sec-WebSocket-Version: ";
 static const char version[] PROGMEM = "13";
 static const char secret[] PROGMEM = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 
-enum wsFrameType { // errors starting from 0xF0
+enum ws_FrameType { // errors starting from 0xF0
     WS_EMPTY_FRAME = 0xF0,
     WS_ERROR_FRAME = 0xF1,
     WS_INCOMPLETE_FRAME = 0xF2,
@@ -94,7 +94,7 @@ struct handshake {
     char *origin;
     char *key;
     char *resource;
-    enum wsFrameType frameType;
+    enum ws_FrameType frameType;
 };
 
     /**
@@ -103,7 +103,7 @@ struct handshake {
      * @param hs Cleared with nullHandshake() handshake structure
      * @return Type of parsed frame
      */
-    enum wsFrameType wsParseHandshake(const uint8_t *inputFrame, size_t inputLength,
+    enum ws_FrameType ws_ParseHandshake(const uint8_t *inputFrame, size_t inputLength,
                                       struct handshake *hs);
 	
     /**
@@ -111,7 +111,7 @@ struct handshake {
      * @param outFrame Pointer to frame buffer
      * @param outLength Length of frame buffer. Return length of out frame
      */
-    void wsGetHandshakeAnswer(const struct handshake *hs, uint8_t *outFrame,
+    void ws_GetHandshakeAnswer(const struct handshake *hs, uint8_t *outFrame,
                               size_t *outLength);
 
     /**
@@ -121,8 +121,8 @@ struct handshake {
      * @param outLength Length of out frame buffer. Return length of out frame
      * @param frameType [WS_TEXT_FRAME] frame type to build
      */
-    void wsMakeFrame(const uint8_t *data, size_t dataLength,
-                     uint8_t *outFrame, size_t *outLength, enum wsFrameType frameType);
+    void ws_MakeFrame(const uint8_t *data, size_t dataLength,
+                     uint8_t *outFrame, size_t *outLength, enum ws_FrameType frameType);
 
     /**
      *
@@ -132,25 +132,25 @@ struct handshake {
      * @param outLen Return length of extracted data
      * @return Type of parsed frame
      */
-    enum wsFrameType wsParseInputFrame(uint8_t *inputFrame, size_t inputLength,
+    enum ws_FrameType ws_ParseInputFrame(uint8_t *inputFrame, size_t inputLength,
                                        uint8_t **dataPtr, size_t *dataLength);
 
     /**
      * @param hs NULL handshake structure
      */
-    void nullHandshake(struct handshake *hs);
+    void ws_nullHandshake(struct handshake *hs);
 
     /**
      * @param hs free and NULL handshake structure
      */
-    void freeHandshake(struct handshake *hs);
+    void ws_freeHandshake(struct handshake *hs);
 
     /**
      * Callback Functio for sending Websocket Data packets
      * @param recievedString
      * @param dataLength
      */
-    void wsSendDataCallback(const uint8_t *recievedString, size_t dataLength);
+    void WS_SendDataCallback(const uint8_t *recievedString, size_t dataLength);
     
 #ifdef	__cplusplus
 }

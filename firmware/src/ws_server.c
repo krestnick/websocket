@@ -60,7 +60,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // Section: Global Data Definitions
 // *****************************************************************************
 // *****************************************************************************
-void clientWorker(NET_PRES_SKT_HANDLE_T clientSocket);
+void WS_clientWorker(NET_PRES_SKT_HANDLE_T clientSocket);
 
 // *****************************************************************************
 /* Application Data
@@ -178,7 +178,7 @@ void WS_SERVER_Tasks(void)
         }
         if (NET_PRES_SocketReadIsReady(ws_serverData.socket) != 0)
         {
-            clientWorker(ws_serverData.socket);
+            WS_clientWorker(ws_serverData.socket);
         }
         break;
 

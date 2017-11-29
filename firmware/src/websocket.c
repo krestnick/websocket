@@ -25,134 +25,134 @@
 #include "ws_server.h"
 #include "websocket.h"
 
-static char rn[] PROGMEM = "\r\n";
+static char ws_rn[] PROGMEM = "\r\n";
 
-static inline size_t base64len(size_t n)
+static inline size_t ws_base64len(size_t n)
 {
     return (n + 2) / 3 * 4;
 }
 
-static size_t base64(char *buf, size_t nbuf, const unsigned char *p, size_t n)
-{
-    const char t[64] PROGMEM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    size_t i, m = base64len(n);
-    unsigned x;
+
+static size_t ws_base64(char *buf, size_t nbuf, const unsigned char *p, size_t n)
+{    
+    const char ws_base64_t[64] PROGMEM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    size_t i, m = ws_base64len(n);
+    unsigned ws_x;
 
     //if (nbuf >= m)
     for (i = 0; i < n; ++i)
     {
-        x = p[i] << 0x10;
-        x |= (++i < n ? p[i] : 0) << 0x08;
-        x |= (++i < n ? p[i] : 0) << 0x00;
+        ws_x = p[i] << 0x10;
+        ws_x |= (++i < n ? p[i] : 0) << 0x08;
+        ws_x |= (++i < n ? p[i] : 0) << 0x00;
 
-        *buf++ = t[x >> 3 * 6 & 0x3f];
-        *buf++ = t[x >> 2 * 6 & 0x3f];
+        *buf++ = ws_base64_t[ws_x >> 3 * 6 & 0x3f];
+        *buf++ = ws_base64_t[ws_x >> 2 * 6 & 0x3f];
         *buf++ = (((n - 0 - i) >> 31) & '=') |
-                (~((n - 0 - i) >> 31) & t[x >> 1 * 6 & 0x3f]);
+                (~((n - 0 - i) >> 31) & ws_base64_t[ws_x >> 1 * 6 & 0x3f]);
         *buf++ = (((n - 1 - i) >> 31) & '=') |
-                (~((n - 1 - i) >> 31) & t[x >> 0 * 6 & 0x3f]);
+                (~((n - 1 - i) >> 31) & ws_base64_t[ws_x >> 0 * 6 & 0x3f]);
     }
 
     return m;
 }
 #define SHA1_SIZE 20
 
-void sha1mix(unsigned *r, unsigned *w)
+void ws_sha1mix(unsigned *r, unsigned *w)
 {
-    unsigned a = r[0];
-    unsigned b = r[1];
-    unsigned c = r[2];
-    unsigned d = r[3];
-    unsigned e = r[4];
-    unsigned t, i = 0;
+    unsigned ws_a = r[0];
+    unsigned ws_b = r[1];
+    unsigned ws_c = r[2];
+    unsigned ws_d = r[3];
+    unsigned ws_e = r[4];
+    unsigned ws_t, ws_i = 0;
 
 #define rol(x,s) (  ((x) << (s)) | ((unsigned) ((x) >> (32 - (s))))   )
 #define mix(f,v) do { \
-		t = (f) + (v) + rol(a, 5) + e + w[i & 0xf]; \
-		e = d; \
-		d = c; \
-		c = rol(b, 30); \
-		b = a; \
-		a = t; \
+		ws_t = (f) + (v) + rol(ws_a, 5) + ws_e + w[ws_i & 0xf]; \
+		ws_e = ws_d; \
+		ws_d = ws_c; \
+		ws_c = rol(ws_b, 30); \
+		ws_b = ws_a; \
+		ws_a = ws_t; \
 	} while (0)
 
-    for (; i < 16; ++i)
-        mix(d ^ (b & (c ^ d)), 0x5a827999);
+    for (; ws_i < 16; ++ws_i)
+        mix(ws_d ^ (ws_b & (ws_c ^ ws_d)), 0x5a827999);
 
-    for (; i < 20; ++i)
+    for (; ws_i < 20; ++ws_i)
     {
-        w[i & 0xf] = rol(w[(i + 13) & 0xf] ^ w[(i + 8) & 0xf] ^ w[(i + 2) & 0xf] ^ w[i & 0xf], 1);
-        mix(d ^ (b & (c ^ d)), 0x5a827999);
+        w[ws_i & 0xf] = rol(w[(ws_i + 13) & 0xf] ^ w[(ws_i + 8) & 0xf] ^ w[(ws_i + 2) & 0xf] ^ w[ws_i & 0xf], 1);
+        mix(ws_d ^ (ws_b & (ws_c ^ ws_d)), 0x5a827999);
     }
 
-    for (; i < 40; ++i)
+    for (; ws_i < 40; ++ws_i)
     {
-        w[i & 0xf] = rol(w[(i + 13) & 0xf] ^ w[(i + 8) & 0xf] ^ w[(i + 2) & 0xf] ^ w[i & 0xf], 1);
-        mix(b ^ c ^ d, 0x6ed9eba1);
+        w[ws_i & 0xf] = rol(w[(ws_i + 13) & 0xf] ^ w[(ws_i + 8) & 0xf] ^ w[(ws_i + 2) & 0xf] ^ w[ws_i & 0xf], 1);
+        mix(ws_b ^ ws_c ^ ws_d, 0x6ed9eba1);
     }
 
-    for (; i < 60; ++i)
+    for (; ws_i < 60; ++ws_i)
     {
-        w[i & 0xf] = rol(w[(i + 13) & 0xf] ^ w[(i + 8) & 0xf] ^ w[(i + 2) & 0xf] ^ w[i & 0xf], 1);
-        mix((b & c) | (d & (b | c)), 0x8f1bbcdc);
+        w[ws_i & 0xf] = rol(w[(ws_i + 13) & 0xf] ^ w[(ws_i + 8) & 0xf] ^ w[(ws_i + 2) & 0xf] ^ w[ws_i & 0xf], 1);
+        mix((ws_b & ws_c) | (ws_d & (ws_b | ws_c)), 0x8f1bbcdc);
     }
 
-    for (; i < 80; ++i)
+    for (; ws_i < 80; ++ws_i)
     {
-        w[i & 0xf] = rol(w[(i + 13) & 0xf] ^ w[(i + 8) & 0xf] ^ w[(i + 2) & 0xf] ^ w[i & 0xf], 1);
-        mix(b ^ c ^ d, 0xca62c1d6);
+        w[ws_i & 0xf] = rol(w[(ws_i + 13) & 0xf] ^ w[(ws_i + 8) & 0xf] ^ w[(ws_i + 2) & 0xf] ^ w[ws_i & 0xf], 1);
+        mix(ws_b ^ ws_c ^ ws_d, 0xca62c1d6);
     }
 
 #undef mix
 #undef rol
 
-    r[0] += a;
-    r[1] += b;
-    r[2] += c;
-    r[3] += d;
-    r[4] += e;
+    r[0] += ws_a;
+    r[1] += ws_b;
+    r[2] += ws_c;
+    r[3] += ws_d;
+    r[4] += ws_e;
 }
 
-static void sha1(unsigned char *h, const void *p, size_t n)
+static void ws_sha1(unsigned char *h, const void *p, size_t n)
 {
-    size_t i = 0;
-
-    unsigned w[16], r[5] = {0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0};
-
-    for (; i < (n & ~0x3f);)
+    size_t ws_i = 0;    
+    unsigned ws_w[16], ws_r[5] = {0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0};
+    
+    for (; ws_i < (n & ~0x3f);)
     {
-        do w[i >> 2 & 0xf] =
-                ((const unsigned char *) p)[i + 3] << 0x00 |
-                ((const unsigned char *) p)[i + 2] << 0x08 |
-                ((const unsigned char *) p)[i + 1] << 0x10 |
-                ((const unsigned char *) p)[i + 0] << 0x18; while ((i += 4) & 0x3f);
-        sha1mix(r, w);
+        do ws_w[ws_i >> 2 & 0xf] =
+                ((const unsigned char *) p)[ws_i + 3] << 0x00 |
+                ((const unsigned char *) p)[ws_i + 2] << 0x08 |
+                ((const unsigned char *) p)[ws_i + 1] << 0x10 |
+                ((const unsigned char *) p)[ws_i + 0] << 0x18; while ((ws_i += 4) & 0x3f);
+        ws_sha1mix(ws_r, ws_w);
     }
 
-    memset(w, 0, sizeof w);
+    memset(ws_w, 0, sizeof ws_w);
 
-    for (; i < n; ++i)
-        w[i >> 2 & 0xf] |= ((const unsigned char *) p)[i] << (((3 ^ i) & 3) << 3);
+    for (; ws_i < n; ++ws_i)
+        ws_w[ws_i >> 2 & 0xf] |= ((const unsigned char *) p)[ws_i] << (((3 ^ ws_i) & 3) << 3);
 
-    w[(i >> 2) & 0xf] |= 0x80 << (((3 ^ i) & 3) << 3);
+    ws_w[(ws_i >> 2) & 0xf] |= 0x80 << (((3 ^ ws_i) & 3) << 3);
 
     if ((n & 0x3f) > 56)
     {
-        sha1mix(r, w);
-        memset(w, 0, sizeof w);
+        ws_sha1mix(ws_r, ws_w);
+        memset(ws_w, 0, sizeof ws_w);
     }
 
-    w[15] = n << 3;
-    sha1mix(r, w);
+    ws_w[15] = n << 3;
+    ws_sha1mix(ws_r, ws_w);
 
-    for (i = 0; i < 5; ++i)
-        h[(i << 2) + 0] = (unsigned char) (r[i] >> 0x18),
-        h[(i << 2) + 1] = (unsigned char) (r[i] >> 0x10),
-        h[(i << 2) + 2] = (unsigned char) (r[i] >> 0x08),
-        h[(i << 2) + 3] = (unsigned char) (r[i] >> 0x00);
+    for (ws_i = 0; ws_i < 5; ++ws_i)
+        h[(ws_i << 2) + 0] = (unsigned char) (ws_r[ws_i] >> 0x18),
+        h[(ws_i << 2) + 1] = (unsigned char) (ws_r[ws_i] >> 0x10),
+        h[(ws_i << 2) + 2] = (unsigned char) (ws_r[ws_i] >> 0x08),
+        h[(ws_i << 2) + 3] = (unsigned char) (ws_r[ws_i] >> 0x00);
 }
 
-void nullHandshake(struct handshake *hs)
+void ws_nullHandshake(struct handshake *hs)
 {
     hs->host = NULL;
     hs->origin = NULL;
@@ -161,7 +161,7 @@ void nullHandshake(struct handshake *hs)
     hs->frameType = WS_EMPTY_FRAME;
 }
 
-void freeHandshake(struct handshake *hs)
+void ws_freeHandshake(struct handshake *hs)
 {
     if (hs->host)
     {
@@ -179,27 +179,27 @@ void freeHandshake(struct handshake *hs)
     {
         free(hs->key);
     }
-    nullHandshake(hs);
+    ws_nullHandshake(hs);
 }
 
-static char* getUptoLinefeed(const char *startFrom)
+static char* ws_getUptoLinefeed(const char *startFrom)
 {
-    char *writeTo = NULL;
-    uint8_t newLength = strstr_P(startFrom, rn) - startFrom;
-    assert(newLength);
-    writeTo = (char *) malloc(newLength + 1); //+1 for '\x00'
-    assert(writeTo);
-    memcpy(writeTo, startFrom, newLength);
-    writeTo[ newLength ] = 0;
+    char *ws_writeTo = NULL;
+    uint8_t ws_newLength = strstr_P(startFrom, ws_rn) - startFrom;
+    assert(ws_newLength);
+    ws_writeTo = (char *) malloc(ws_newLength + 1); //+1 for '\x00'
+    assert(ws_writeTo);
+    memcpy(ws_writeTo, startFrom, ws_newLength);
+    ws_writeTo[ ws_newLength ] = 0;
 
-    return writeTo;
+    return ws_writeTo;
 }
 
-enum wsFrameType wsParseHandshake(const uint8_t *inputFrame, size_t inputLength,
+enum ws_FrameType ws_ParseHandshake(const uint8_t *inputFrame, size_t inputLength,
         struct handshake *hs)
 {
-    const char *inputPtr = (const char *) inputFrame;
-    const char *endPtr = (const char *) inputFrame + inputLength;
+    const char *ws_inputPtr = (const char *) inputFrame;
+    const char *ws_endPtr = (const char *) inputFrame + inputLength;
 
     if (!strstr((const char *) inputFrame, "\r\n\r\n"))
         return WS_INCOMPLETE_FRAME;
@@ -223,88 +223,88 @@ enum wsFrameType wsParseHandshake(const uint8_t *inputFrame, size_t inputLength,
     hs->resource = (char *) malloc(second - first + 1); // +1 is for \x00 symbol
     assert(hs->resource);
 
-    if (sscanf_P(inputPtr, PSTR("GET %s HTTP/1.1\r\n"), hs->resource) != 1)
+    if (sscanf_P(ws_inputPtr, PSTR("GET %s HTTP/1.1\r\n"), hs->resource) != 1)
         return WS_ERROR_FRAME;
-    inputPtr = strstr_P(inputPtr, rn) + 2;
+    ws_inputPtr = strstr_P(ws_inputPtr, ws_rn) + 2;
 
     /*
         parse next lines
      */
 #define prepare(x) do {if (x) { free(x); x = NULL; }} while(0)
 #define strtolower(x) do { int i; for (i = 0; x[i]; i++) x[i] = tolower(x[i]); } while(0)
-    uint8_t connectionFlag = FALSE;
-    uint8_t upgradeFlag = FALSE;
-    uint8_t subprotocolFlag = FALSE;
-    uint8_t versionMismatch = FALSE;
-    while (inputPtr < endPtr && inputPtr[0] != '\r' && inputPtr[1] != '\n')
+    uint8_t ws_connectionFlag = FALSE;
+    uint8_t ws_upgradeFlag = FALSE;
+    uint8_t ws_subprotocolFlag = FALSE;
+    uint8_t ws_versionMismatch = FALSE;
+    while (ws_inputPtr < ws_endPtr && ws_inputPtr[0] != '\r' && ws_inputPtr[1] != '\n')
     {
-        if (memcmp_P(inputPtr, hostField, strlen_P(hostField)) == 0)
+        if (memcmp_P(ws_inputPtr, hostField, strlen_P(hostField)) == 0)
         {
-            inputPtr += strlen_P(hostField);
+            ws_inputPtr += strlen_P(hostField);
             prepare(hs->host);
-            hs->host = getUptoLinefeed(inputPtr);
+            hs->host = ws_getUptoLinefeed(ws_inputPtr);
         }
         else
-            if (memcmp_P(inputPtr, originField, strlen_P(originField)) == 0)
+            if (memcmp_P(ws_inputPtr, originField, strlen_P(originField)) == 0)
         {
-            inputPtr += strlen_P(originField);
+            ws_inputPtr += strlen_P(originField);
             prepare(hs->origin);
-            hs->origin = getUptoLinefeed(inputPtr);
+            hs->origin = ws_getUptoLinefeed(ws_inputPtr);
         }
         else
-            if (memcmp_P(inputPtr, protocolField, strlen_P(protocolField)) == 0)
+            if (memcmp_P(ws_inputPtr, protocolField, strlen_P(protocolField)) == 0)
         {
-            inputPtr += strlen_P(protocolField);
-            subprotocolFlag = TRUE;
+            ws_inputPtr += strlen_P(protocolField);
+            ws_subprotocolFlag = TRUE;
         }
         else
-            if (memcmp_P(inputPtr, keyField, strlen_P(keyField)) == 0)
+            if (memcmp_P(ws_inputPtr, keyField, strlen_P(keyField)) == 0)
         {
-            inputPtr += strlen_P(keyField);
+            ws_inputPtr += strlen_P(keyField);
             prepare(hs->key);
-            hs->key = getUptoLinefeed(inputPtr);
+            hs->key = ws_getUptoLinefeed(ws_inputPtr);
         }
         else
-            if (memcmp_P(inputPtr, versionField, strlen_P(versionField)) == 0)
+            if (memcmp_P(ws_inputPtr, versionField, strlen_P(versionField)) == 0)
         {
-            inputPtr += strlen_P(versionField);
+            ws_inputPtr += strlen_P(versionField);
             char *versionString = NULL;
-            versionString = getUptoLinefeed(inputPtr);
+            versionString = ws_getUptoLinefeed(ws_inputPtr);
             if (memcmp_P(versionString, version, strlen_P(version)) != 0)
-                versionMismatch = TRUE;
+                ws_versionMismatch = TRUE;
             free(versionString);
         }
         else
-            if (memcmp_P(inputPtr, connectionField, strlen_P(connectionField)) == 0)
+            if (memcmp_P(ws_inputPtr, connectionField, strlen_P(connectionField)) == 0)
         {
-            inputPtr += strlen_P(connectionField);
+            ws_inputPtr += strlen_P(connectionField);
             char *connectionValue = NULL;
-            connectionValue = getUptoLinefeed(inputPtr);
+            connectionValue = ws_getUptoLinefeed(ws_inputPtr);
             strtolower(connectionValue);
             assert(connectionValue);
             if (strstr_P(connectionValue, upgrade) != NULL)
-                connectionFlag = TRUE;
+                ws_connectionFlag = TRUE;
             free(connectionValue);
         }
         else
-            if (memcmp_P(inputPtr, upgradeField, strlen_P(upgradeField)) == 0)
+            if (memcmp_P(ws_inputPtr, upgradeField, strlen_P(upgradeField)) == 0)
         {
-            inputPtr += strlen_P(upgradeField);
+            ws_inputPtr += strlen_P(upgradeField);
             char *compare = NULL;
-            compare = getUptoLinefeed(inputPtr);
+            compare = ws_getUptoLinefeed(ws_inputPtr);
             strtolower(compare);
             assert(compare);
             if (memcmp_P(compare, websocket, strlen_P(websocket)) == 0)
-                upgradeFlag = TRUE;
+                ws_upgradeFlag = TRUE;
             free(compare);
         };
 
-        inputPtr = strstr_P(inputPtr, rn) + 2;
+        ws_inputPtr = strstr_P(ws_inputPtr, ws_rn) + 2;
     }
 
     // we have read all data, so check them
-    if (!hs->host || !hs->key || !connectionFlag || !upgradeFlag || subprotocolFlag
-        || versionMismatch)
+    if (!hs->host || !hs->key || !ws_connectionFlag || !ws_upgradeFlag || ws_subprotocolFlag
+        || ws_versionMismatch)
     {
         hs->frameType = WS_ERROR_FRAME;
     }
@@ -316,23 +316,23 @@ enum wsFrameType wsParseHandshake(const uint8_t *inputFrame, size_t inputLength,
     return hs->frameType;
 }
 
-void test_sha1(void)
+void ws_test_sha1(void)
 {
-    char responseKey[200];
-    char ServerKey[] = {"ew4MSslhV5cm2TK95DGxYA=="}; //{"dGhlIHNhbXBsZSBub25jZQ=="};
+    char ws_responseKey[200];    
     unsigned char sha1_hash[30];
-    unsigned int key_length;
+    unsigned int ws_key_length;
+    char ws_ServerKey[] = {"ew4MSslhV5cm2TK95DGxYA=="}; //{"dGhlIHNhbXBsZSBub25jZQ=="};
     
-    responseKey[0]=0;
-    sprintf(responseKey,"%s258EAFA5-E914-47DA-95CA-C5AB0DC85B11",ServerKey);
+    ws_responseKey[0]=0;
+    sprintf(ws_responseKey,"%s258EAFA5-E914-47DA-95CA-C5AB0DC85B11",ws_ServerKey);
   
-    key_length = strlen(responseKey);
+    ws_key_length = strlen(ws_responseKey);
     memset(sha1_hash, 0, sizeof (sha1_hash));
 
-    sha1(sha1_hash, responseKey, key_length);
-    size_t base64Length = base64(responseKey, key_length, sha1_hash, 20);
-    responseKey[base64Length-1] = '=';
-    responseKey[base64Length] = '\0';
+    ws_sha1(sha1_hash, ws_responseKey, ws_key_length);
+    size_t base64Length = ws_base64(ws_responseKey, ws_key_length, sha1_hash, 20);
+    ws_responseKey[base64Length-1] = '=';
+    ws_responseKey[base64Length] = '\0';
 
     /* from: https://tools.ietf.org/html/rfc6455#page-6 
      * 
@@ -344,24 +344,24 @@ void test_sha1(void)
     for (;;);
 }
 
-void wsGetHandshakeAnswer(const struct handshake *hs, uint8_t *outFrame,
+void ws_GetHandshakeAnswer(const struct handshake *hs, uint8_t *outFrame,
         size_t *outLength)
 {
     assert(outFrame && *outLength);
     assert(hs->frameType == WS_OPENING_FRAME);
     assert(hs && hs->key);
 
-    char *responseKey = NULL;
-    uint8_t length = strlen(hs->key) + strlen_P(secret);
-    responseKey = malloc(length);
-    memcpy(responseKey, hs->key, strlen(hs->key));
-    memcpy_P(&(responseKey[strlen(hs->key)]), secret, strlen_P(secret));
-    unsigned char shaHash[20];
-    memset(shaHash, 0, sizeof (shaHash));
-    sha1(shaHash, responseKey, length);
-    size_t base64Length = base64(responseKey, length, shaHash, 20);
-    responseKey[base64Length-1] = '=';
-    responseKey[base64Length] = '\0';
+    char *ws_responseKey = NULL;
+    uint8_t ws_length = strlen(hs->key) + strlen_P(secret);
+    ws_responseKey = malloc(ws_length);
+    memcpy(ws_responseKey, hs->key, strlen(hs->key));
+    memcpy_P(&(ws_responseKey[strlen(hs->key)]), secret, strlen_P(secret));
+    unsigned char ws_shaHash[20];
+    memset(ws_shaHash, 0, sizeof (ws_shaHash));
+    ws_sha1(ws_shaHash, ws_responseKey, ws_length);
+    size_t ws_base64Length = ws_base64(ws_responseKey, ws_length, ws_shaHash, 20);
+    ws_responseKey[ws_base64Length-1] = '=';
+    ws_responseKey[ws_base64Length] = '\0';
 
     int written = sprintf_P((char *) outFrame,
             PSTR("HTTP/1.1 101 Switching Protocols\r\n"
@@ -372,16 +372,16 @@ void wsGetHandshakeAnswer(const struct handshake *hs, uint8_t *outFrame,
             websocket,
             connectionField,
             upgrade2,
-            responseKey);
+            ws_responseKey);
 
-    free(responseKey);
+    free(ws_responseKey);
     // if assert fail, that means, that we corrupt memory
     assert(written <= *outLength);
     *outLength = written;
 }
 
-void wsMakeFrame(const uint8_t *data, size_t dataLength,
-        uint8_t *outFrame, size_t *outLength, enum wsFrameType frameType)
+void ws_MakeFrame(const uint8_t *data, size_t dataLength,
+        uint8_t *outFrame, size_t *outLength, enum ws_FrameType frameType)
 {
     assert(outFrame && *outLength);
     assert(frameType < 0x10);
@@ -417,30 +417,30 @@ void wsMakeFrame(const uint8_t *data, size_t dataLength,
     *outLength += dataLength;
 }
 
-static size_t getPayloadLength(const uint8_t *inputFrame, size_t inputLength,
-        uint8_t *payloadFieldExtraBytes, enum wsFrameType *frameType)
+static size_t ws_getPayloadLength(const uint8_t *inputFrame, size_t inputLength,
+        uint8_t *payloadFieldExtraBytes, enum ws_FrameType *frameType)
 {
-    size_t payloadLength = inputFrame[1] & 0x7F;
+    size_t ws_payloadLength = inputFrame[1] & 0x7F;
     *payloadFieldExtraBytes = 0;
-    if ((payloadLength == 0x7E && inputLength < 4) || (payloadLength == 0x7F && inputLength < 10))
+    if ((ws_payloadLength == 0x7E && inputLength < 4) || (ws_payloadLength == 0x7F && inputLength < 10))
     {
         *frameType = WS_INCOMPLETE_FRAME;
         return 0;
     }
-    if (payloadLength == 0x7F && (inputFrame[3] & 0x80) != 0x0)
+    if (ws_payloadLength == 0x7F && (inputFrame[3] & 0x80) != 0x0)
     {
         *frameType = WS_ERROR_FRAME;
         return 0;
     }
 
-    if (payloadLength == 0x7E)
+    if (ws_payloadLength == 0x7E)
     {
         uint16_t payloadLength16b = 0;
         *payloadFieldExtraBytes = 2;
         memcpy(&payloadLength16b, &inputFrame[2], *payloadFieldExtraBytes);
-        payloadLength = 0; //ntohs(payloadLength16b); //MR:
+        ws_payloadLength = 0; //ntohs(payloadLength16b); //MR:
     }
-    else if (payloadLength == 0x7F)
+    else if (ws_payloadLength == 0x7F)
     {
         *frameType = WS_ERROR_FRAME;
         return 0;
@@ -457,10 +457,10 @@ static size_t getPayloadLength(const uint8_t *inputFrame, size_t inputLength,
          */
     }
 
-    return payloadLength;
+    return ws_payloadLength;
 }
 
-enum wsFrameType wsParseInputFrame(uint8_t *inputFrame, size_t inputLength,
+enum ws_FrameType ws_ParseInputFrame(uint8_t *inputFrame, size_t inputLength,
         uint8_t **dataPtr, size_t *dataLength)
 {
     assert(inputFrame && inputLength);
@@ -483,10 +483,10 @@ enum wsFrameType wsParseInputFrame(uint8_t *inputFrame, size_t inputLength,
         opcode == WS_PONG_FRAME
         )
     {
-        enum wsFrameType frameType = opcode;
+        enum ws_FrameType frameType = opcode;
 
         uint8_t payloadFieldExtraBytes = 0;
-        size_t payloadLength = getPayloadLength(inputFrame, inputLength,
+        size_t payloadLength = ws_getPayloadLength(inputFrame, inputLength,
                 &payloadFieldExtraBytes, &frameType);
         if (payloadLength > 0)
         {

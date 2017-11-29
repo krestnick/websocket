@@ -68,6 +68,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 int main ( void )
 {
+
     /* Initialize all MPLAB Harmony modules, including application(s). */
     SYS_Initialize ( NULL );
 

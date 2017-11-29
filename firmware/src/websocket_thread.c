@@ -37,17 +37,17 @@
 #define BUF_LEN 0xFFFF
 //#define PACKET_DUMP
 
-uint8_t gBuffer[BUF_LEN];
+uint8_t WS_gBuffer[BUF_LEN];
 extern WS_SERVER_DATA ws_serverData;
-NET_PRES_SKT_HANDLE_T ActiveclientSocket = 0;
+NET_PRES_SKT_HANDLE_T WS_ActiveclientSocket = 0;
 
-void error(const char *msg)
+void WS_error(const char *msg)
 {
     perror(msg);
     exit(EXIT_FAILURE);
 }
 
-int safeSend(int clientSocket, const uint8_t *buffer, size_t bufferSize)
+int WS_safeSend(int clientSocket, const uint8_t *buffer, size_t bufferSize)
 {
     ssize_t written;
 #ifdef PACKET_DUMP
@@ -76,28 +76,28 @@ int safeSend(int clientSocket, const uint8_t *buffer, size_t bufferSize)
     return EXIT_SUCCESS;
 }
 
-void clientWorker(NET_PRES_SKT_HANDLE_T clientSocket)
+void WS_clientWorker(NET_PRES_SKT_HANDLE_T clientSocket)
 {
-    memset(gBuffer, 0, BUF_LEN);
+    memset(WS_gBuffer, 0, BUF_LEN);
     size_t readedLength = 0;
     size_t frameSize = BUF_LEN;
     enum wsState state = WS_STATE_OPENING;
     uint8_t *data = NULL;
     size_t dataSize = 0;
-    enum wsFrameType frameType = WS_INCOMPLETE_FRAME;
+    enum ws_FrameType frameType = WS_INCOMPLETE_FRAME;
     struct handshake hs;
     uint32_t value;
-    nullHandshake(&hs);
+    ws_nullHandshake(&hs);
     bool two_frames = false;
     ssize_t readed;
     ssize_t readed_second;
     size_t payloadLength;
     char *secondframe = NULL;
 
-    ActiveclientSocket = clientSocket;
+    WS_ActiveclientSocket = clientSocket;
 
-#define prepareBuffer frameSize = BUF_LEN; memset(gBuffer, 0, BUF_LEN);
-#define initNewFrame frameType = WS_INCOMPLETE_FRAME; readedLength = 0; memset(gBuffer, 0, BUF_LEN);
+#define prepareBuffer frameSize = BUF_LEN; memset(WS_gBuffer, 0, BUF_LEN);
+#define initNewFrame frameType = WS_INCOMPLETE_FRAME; readedLength = 0; memset(WS_gBuffer, 0, BUF_LEN);
 
     while (frameType == WS_INCOMPLETE_FRAME)
     {
@@ -105,7 +105,7 @@ void clientWorker(NET_PRES_SKT_HANDLE_T clientSocket)
         if (two_frames)
         {
             /* copy second frame to primary buffer */
-            memcpy(gBuffer, secondframe, readed_second);
+            memcpy(WS_gBuffer, secondframe, readed_second);
             free(secondframe);
             two_frames = false;
         }
@@ -115,11 +115,11 @@ void clientWorker(NET_PRES_SKT_HANDLE_T clientSocket)
             // !!! Blocking for Incoming Data !!!
             while (NET_PRES_SocketReadIsReady(clientSocket) == 0);
             //----------------------------------------------------------------------
-            readed = NET_PRES_SocketRead(clientSocket, gBuffer + readedLength, BUF_LEN - readedLength); //0; //recv(clientSocket, gBuffer+readedLength, BUF_LEN-readedLength, 0); //MR:
+            readed = NET_PRES_SocketRead(clientSocket, WS_gBuffer + readedLength, BUF_LEN - readedLength); //0; //recv(clientSocket, gBuffer+readedLength, BUF_LEN-readedLength, 0); //MR:
             /* if incoming data is a valid websocket packet */
-            if (gBuffer[0] == 0x81)
+            if (WS_gBuffer[0] == 0x81)
             {
-                payloadLength = gBuffer[1] & 0x7F;
+                payloadLength = WS_gBuffer[1] & 0x7F;
                 /* if buffer contains more than one frame.
                  * this could happen when the client send a text websocket packet
                  * and closing websocket packet very fast after each other. 
@@ -132,7 +132,7 @@ void clientWorker(NET_PRES_SKT_HANDLE_T clientSocket)
                     secondframe = malloc(readed_second);
                     assert(secondframe);
                     /* copy second frame to temporary buffer */
-                    memcpy(secondframe, &gBuffer[readed], readed_second);
+                    memcpy(secondframe, &WS_gBuffer[readed], readed_second);
                     /* set signal for processing second frame*/
                     two_frames = true;
                 }
@@ -151,11 +151,11 @@ void clientWorker(NET_PRES_SKT_HANDLE_T clientSocket)
 
         if (state == WS_STATE_OPENING)
         {
-            frameType = wsParseHandshake(gBuffer, readedLength, &hs);
+            frameType = ws_ParseHandshake(WS_gBuffer, readedLength, &hs);
         }
         else
         {
-            frameType = wsParseInputFrame(gBuffer, readedLength, &data, &dataSize);
+            frameType = ws_ParseInputFrame(WS_gBuffer, readedLength, &data, &dataSize);
         }
 
         if ((frameType == WS_INCOMPLETE_FRAME && readedLength == BUF_LEN) || frameType == WS_ERROR_FRAME)
@@ -168,19 +168,19 @@ void clientWorker(NET_PRES_SKT_HANDLE_T clientSocket)
             if (state == WS_STATE_OPENING)
             {
                 prepareBuffer;
-                frameSize = sprintf((char *) gBuffer,
+                frameSize = sprintf((char *) WS_gBuffer,
                         "HTTP/1.1 400 Bad Request\r\n"
                         "%s%s\r\n\r\n",
                         versionField,
                         version);
-                safeSend(clientSocket, gBuffer, frameSize);
+                WS_safeSend(clientSocket, WS_gBuffer, frameSize);
                 break;
             }
             else
             {
                 prepareBuffer;
-                wsMakeFrame(NULL, 0, gBuffer, &frameSize, WS_CLOSING_FRAME);
-                if (safeSend(clientSocket, gBuffer, frameSize) == EXIT_FAILURE)
+                ws_MakeFrame(NULL, 0, WS_gBuffer, &frameSize, WS_CLOSING_FRAME);
+                if (WS_safeSend(clientSocket, WS_gBuffer, frameSize) == EXIT_FAILURE)
                     break;
                 state = WS_STATE_CLOSING;
                 initNewFrame;
@@ -195,15 +195,15 @@ void clientWorker(NET_PRES_SKT_HANDLE_T clientSocket)
                 // if resource is right, generate answer handshake and send it
                 if (strcmp(hs.resource, "/echo") != 0)
                 {
-                    frameSize = sprintf((char *) gBuffer, "HTTP/1.1 404 Not Found\r\n\r\n");
-                    safeSend(clientSocket, gBuffer, frameSize);
+                    frameSize = sprintf((char *) WS_gBuffer, "HTTP/1.1 404 Not Found\r\n\r\n");
+                    WS_safeSend(clientSocket, WS_gBuffer, frameSize);
                     break;
                 }
 
                 prepareBuffer;
-                wsGetHandshakeAnswer(&hs, gBuffer, &frameSize);
-                freeHandshake(&hs);
-                if (safeSend(clientSocket, gBuffer, frameSize) == EXIT_FAILURE)
+                ws_GetHandshakeAnswer(&hs, WS_gBuffer, &frameSize);
+                ws_freeHandshake(&hs);
+                if (WS_safeSend(clientSocket, WS_gBuffer, frameSize) == EXIT_FAILURE)
                     break;
                 state = WS_STATE_NORMAL;
                 initNewFrame;
@@ -220,8 +220,8 @@ void clientWorker(NET_PRES_SKT_HANDLE_T clientSocket)
                 else
                 {
                     prepareBuffer;
-                    wsMakeFrame(NULL, 0, gBuffer, &frameSize, WS_CLOSING_FRAME);
-                    safeSend(clientSocket, gBuffer, frameSize);
+                    ws_MakeFrame(NULL, 0, WS_gBuffer, &frameSize, WS_CLOSING_FRAME);
+                    WS_safeSend(clientSocket, WS_gBuffer, frameSize);
                     break;
                 }
             }
@@ -260,9 +260,9 @@ void clientWorker(NET_PRES_SKT_HANDLE_T clientSocket)
                 //--------------------------------------------------------------
 
                 prepareBuffer;
-                wsMakeFrame(recievedString, dataSize, gBuffer, &frameSize, WS_TEXT_FRAME);
+                ws_MakeFrame(recievedString, dataSize, WS_gBuffer, &frameSize, WS_TEXT_FRAME);
                 free(recievedString);
-                if (safeSend(clientSocket, gBuffer, frameSize) == EXIT_FAILURE)
+                if (WS_safeSend(clientSocket, WS_gBuffer, frameSize) == EXIT_FAILURE)
 
                     break;
                 initNewFrame;
@@ -274,7 +274,7 @@ void clientWorker(NET_PRES_SKT_HANDLE_T clientSocket)
     NET_PRES_SocketClose(clientSocket); //MR:
 }
 
-void wsSendDataCallback(const uint8_t *DataString, size_t DataLength)
+void WS_SendDataCallback(const uint8_t *DataString, size_t DataLength)
 {
     size_t StreamFrameSize = BUF_LEN;
     static uint8_t gBufferStream[BUF_LEN];
@@ -282,8 +282,8 @@ void wsSendDataCallback(const uint8_t *DataString, size_t DataLength)
     if (ws_serverData.StreamActive == true)
     {
         memset(gBufferStream, 0, BUF_LEN);
-        wsMakeFrame(DataString, DataLength, gBufferStream, &StreamFrameSize, WS_TEXT_FRAME);
-        safeSend(ActiveclientSocket, gBufferStream, StreamFrameSize);
+        ws_MakeFrame(DataString, DataLength, gBufferStream, &StreamFrameSize, WS_TEXT_FRAME);
+        WS_safeSend(WS_ActiveclientSocket, gBufferStream, StreamFrameSize);
     }
 
 }
