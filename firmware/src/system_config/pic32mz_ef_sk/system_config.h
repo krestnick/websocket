@@ -269,7 +269,7 @@ extern "C" {
 #define DRV_NVM_INTERRUPT_MODE        	true
 #define DRV_NVM_INTERRUPT_SOURCE      	INT_SOURCE_FLASH_CONTROL
 
-#define DRV_NVM_MEDIA_SIZE              180
+#define DRV_NVM_MEDIA_SIZE              182
 #define DRV_NVM_MEDIA_START_ADDRESS     0x9D000000
 
 #define DRV_NVM_ERASE_WRITE_ENABLE

@@ -50,7 +50,7 @@
                     },
                     yaxis: {
                         min: 0,
-                        max: 100000,
+                        max: 65536,
                         zoomRange: [1, 70000],
                         panRange: [1, 70000]
                     },
@@ -125,11 +125,16 @@
                 $('#disconnect').on('click', function () {
                     ws.send("StopStream");
                     ws.close();
+                    delete ws;
                     console.debug('Stream disconnected');
                     return false;
                 });
-
-                
+                                
+                $(window).on('beforeunload', function () {
+                    console.debug('websocket page exit');
+                    return 'Is the Websocket Disconnected ?';
+                });
+                  
             });
 
         </script>
@@ -138,7 +143,7 @@
 
         <form action="" class="form-inline" id="connectForm">
             <div class="input-append">
-                <input type="text" class="input-large" value="ws://169.254.97.179:8088/echo" id="wsServer">
+                <input type="text" class="input-large" value="ws://~my_ip_addr~:8088/echo" id="wsServer">
                 <button class="btn" type="submit"       id="connect"   >Connect</button>
                 <button class="btn" disabled="disabled" id="disconnect">Disconnect</button>
             </div>

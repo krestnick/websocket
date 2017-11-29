@@ -3,14 +3,25 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/system_config/pic32mz_ef_sk/system_tasks.c</file>
+            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/custom_http_app.c</file>
+            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/system_config/pic32mz_ef_sk/system_init.c</file>
             <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/main.c</file>
-            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/websocket.h</file>
-            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/ws_server.c</file>
-            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/websocket_thread.c</file>
-            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/streamer.c</file>
-            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/websocket.c</file>
-            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/ws_server.h</file>
+            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/web_pages/header.inc</file>
+            <file>file:/C:/microchip/harmony/v2_04/third_party/rtos/FreeRTOS/Source/tasks.c</file>
+            <file>file:/C:/microchip/harmony/v2_04/framework/tcpip/src/tcp.c</file>
+            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/web_pages/footer.inc</file>
+            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/system_config/pic32mz_ef_sk/system_config.h</file>
+            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/web_pages/index.htm</file>
+            <file>file:/C:/microchip/harmony/v2_04/framework/system/fs/src/dynamic/sys_fs.c</file>
+            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/web_pages/chart/realtime.html</file>
+            <file>file:/C:/microchip/harmony/v2_04/framework/tcpip/src/common/sys_fs_wrapper.c</file>
+            <file>file:/C:/microchip/harmony/v2_04/framework/tcpip/src/tcpip_manager.c</file>
+            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/mpfs_img2.c</file>
+            <file>file:/C:/microchip/harmony/v2_04/framework/tcpip/src/http.c</file>
+            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/http_print.c</file>
+            <file>file:/C:/microchip/harmony/v2_04/apps/tcpip/websocket_new/firmware/src/web_pages/chart/ws_realtime.html</file>
+            <file>file:/C:/microchip/harmony/v2_04/framework/system/fs/mpfs/src/mpfs.c</file>
+            <file>file:/C:/microchip/harmony/v2_04/third_party/rtos/FreeRTOS/Source/queue.c</file>
         </group>
     </open-files>
 </project-private>

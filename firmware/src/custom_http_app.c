@@ -1874,4 +1874,26 @@ void TCPIP_HTTP_Print_write_comm(HTTP_CONN_HANDLE connHandle, uint16_t num)
 #endif
 }
 
+
+
+void TCPIP_HTTP_Print_(HTTP_CONN_HANDLE connHandle)
+{
+    
+}
+
+
+void TCPIP_HTTP_Print_my_ip_addr(HTTP_CONN_HANDLE connHandle)
+{
+    IPV4_ADDR ipAddress;
+    TCP_SOCKET sktHTTP = TCPIP_HTTP_CurrentConnectionSocketGet(connHandle);
+    TCPIP_NET_HANDLE netH = TCPIP_TCP_SocketNetGet(sktHTTP);
+
+    ipAddress.Val = TCPIP_STACK_NetAddress(netH);
+    if (TCPIP_Helper_IPAddressToString(&ipAddress, (char *)s_buf_ipv4addr, HTTP_APP_IPV4_ADDRESS_BUFFER_SIZE))
+    {
+        TCPIP_TCP_StringPut(sktHTTP, s_buf_ipv4addr);
+    }    
+}
+
+
 #endif // #if defined(TCPIP_STACK_USE_HTTP_SERVER)

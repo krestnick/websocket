@@ -44,7 +44,7 @@ void TCPIP_HTTP_Print(HTTP_CONN_HANDLE connHandle,uint32_t callbackID);
 void TCPIP_HTTP_Print_hellomsg(HTTP_CONN_HANDLE connHandle);
 void TCPIP_HTTP_Print_cookiename(HTTP_CONN_HANDLE connHandle);
 void TCPIP_HTTP_Print_cookiefav(HTTP_CONN_HANDLE connHandle);
-void TCPIP_HTTP_Print_myVariable(HTTP_CONN_HANDLE connHandle);
+void TCPIP_HTTP_Print_(HTTP_CONN_HANDLE connHandle);
 void TCPIP_HTTP_Print_builddate(HTTP_CONN_HANDLE connHandle);
 void TCPIP_HTTP_Print_led(HTTP_CONN_HANDLE connHandle,uint16_t);
 void TCPIP_HTTP_Print_ledSelected(HTTP_CONN_HANDLE connHandle,uint16_t,uint16_t);
@@ -76,6 +76,7 @@ void TCPIP_HTTP_Print_ddns_service(HTTP_CONN_HANDLE connHandle,uint16_t);
 void TCPIP_HTTP_Print_ddns_user(HTTP_CONN_HANDLE connHandle);
 void TCPIP_HTTP_Print_ddns_pass(HTTP_CONN_HANDLE connHandle);
 void TCPIP_HTTP_Print_ddns_host(HTTP_CONN_HANDLE connHandle);
+void TCPIP_HTTP_Print_my_ip_addr(HTTP_CONN_HANDLE connHandle);
 
 void TCPIP_HTTP_Print(HTTP_CONN_HANDLE connHandle,uint32_t callbackID)
 {
@@ -98,7 +99,7 @@ void TCPIP_HTTP_Print(HTTP_CONN_HANDLE connHandle,uint32_t callbackID)
 			TCPIP_HTTP_Print_cookiefav(connHandle);
 			break;
         case 0x00000005:
-			TCPIP_HTTP_Print_myVariable(connHandle);
+			TCPIP_HTTP_Print_(connHandle);
 			break;
         case 0x00000006:
 			TCPIP_HTTP_Print_builddate(connHandle);
@@ -231,6 +232,9 @@ void TCPIP_HTTP_Print(HTTP_CONN_HANDLE connHandle,uint32_t callbackID)
 			break;
         case 0x00000031:
 			TCPIP_HTTP_Print_ddns_host(connHandle);
+			break;
+        case 0x00000032:
+			TCPIP_HTTP_Print_my_ip_addr(connHandle);
 			break;
         default:
             // Output notification for undefined values
