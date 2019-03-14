@@ -33,6 +33,9 @@ Also, the NetBIOS name http://MCHPBOARD_E would have to work in the browser imme
 This would have a Windows computer can connect directly immediately if no DHCP is involved.
 If the board is plugged into a network with DHCP then the PIC fetches an address from the DHCP. Then also works http://MCHPBOARD_E
 
+Here the Callgraph of the Websocket Task
+![Callgraph](Websocket_Callgraph.jpg)
+
 
 Memory Footprint for the Websocket Functions:
 
