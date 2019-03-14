@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="62">
+<configurationDescriptor version="65">
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -503,6 +503,7 @@
         <itemPath>../src/http_print.c</itemPath>
         <itemPath>../src/custom_http_app.c</itemPath>
         <itemPath>../src/mpfs_img2.c</itemPath>
+        <itemPath>../../README.md</itemPath>
       </logicalFolder>
       <logicalFolder name="framework" displayName="framework" projectFiles="true">
         <logicalFolder name="f1" displayName="crypto" projectFiles="true">
@@ -755,8 +756,6 @@
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
-    <Elem>../src</Elem>
-    <Elem>../src/system_config/pic32mz_ec_sk</Elem>
     <Elem>../../../../../framework/driver/nvm/src/dynamic</Elem>
     <Elem>../../../../../framework/driver/tmr/src/dynamic</Elem>
     <Elem>../../../../../framework/system/clk/src</Elem>
@@ -774,13 +773,10 @@
     <Elem>../../../../../framework/tcpip/src/system</Elem>
     <Elem>../../../../../framework/tcpip/src/system/drivers</Elem>
     <Elem>../../../../../bsp/pic32mz_ec_sk</Elem>
-    <Elem>../src/system_config/pic32mx_eth_sk</Elem>
     <Elem>../../../../../bsp/pic32mx_eth_sk</Elem>
-    <Elem>../src/system_config/pic32mx_eth_sk2</Elem>
     <Elem>../../../../../bsp/pic32mx_eth_sk2</Elem>
     <Elem>../../../../../framework/crypto/src</Elem>
     <Elem>../../../../../framework/system/random/src</Elem>
-    <Elem>../src/system_config/pic32mz_ef_sk</Elem>
     <Elem>../../..</Elem>
     <Elem>../src/system_config/pic32mz_da_sk</Elem>
     <Elem>../src/pic32mx_eth_sk</Elem>
@@ -814,9 +810,12 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PKOBSKDEPlatformTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>1.44</languageToolchainVersion>
+        <languageToolchainVersion>2.15</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
+      <packs>
+        <pack name="PIC32MZ-EF_DFP" vendor="Microchip" version="1.0.17"/>
+      </packs>
       <compileType>
         <linkerTool>
           <linkerLibItems>
@@ -845,6 +844,18 @@
       <item path="../../../../../framework/crypto/src/random.c"
             ex="true"
             overriding="false">
+        <C32>
+        </C32>
+        <C32-AR>
+        </C32-AR>
+        <C32-AS>
+        </C32-AS>
+        <C32-LD>
+        </C32-LD>
+        <C32CPP>
+        </C32CPP>
+        <C32Global>
+        </C32Global>
       </item>
       <item path="../../../../../framework/driver/ethphy/src/dynamic/drv_extphy_dp83848.c"
             ex="true"
@@ -1366,6 +1377,7 @@
       </C32-AS>
       <C32-LD>
         <property key="additional-options-use-response-files" value="false"/>
+        <property key="additional-options-write-sla" value="false"/>
         <property key="allocate-dinit" value="false"/>
         <property key="code-dinit" value="false"/>
         <property key="ebase-addr" value=""/>
@@ -1389,6 +1401,7 @@
         <property key="kseg-origin" value=""/>
         <property key="linker-symbols" value=""/>
         <property key="map-file" value="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"/>
+        <property key="no-device-startup-code" value="false"/>
         <property key="no-startup-files" value="false"/>
         <property key="oXC32ld-extra-opts" value=""/>
         <property key="optimization-level" value=""/>
@@ -1555,7 +1568,6 @@
         <property key="ToolFirmwareFilePath"
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
-        <property key="firmware.download.all" value="false"/>
         <property key="memories.configurationmemory" value="true"/>
         <property key="memories.dataflash" value="true"/>
         <property key="memories.eeprom" value="true"/>

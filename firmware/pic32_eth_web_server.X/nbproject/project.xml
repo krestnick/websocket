@@ -13,6 +13,60 @@
             <asminc-extensions>inc</asminc-extensions>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
+            <sourceRootList>
+                <sourceRootElem>../../../../../framework/driver/nvm/src/dynamic</sourceRootElem>
+                <sourceRootElem>../../../../../framework/driver/tmr/src/dynamic</sourceRootElem>
+                <sourceRootElem>../../../../../framework/system/clk/src</sourceRootElem>
+                <sourceRootElem>../../../../../framework/system/devcon/src</sourceRootElem>
+                <sourceRootElem>../../../../../framework/system/fs/src/dynamic</sourceRootElem>
+                <sourceRootElem>../../../../../framework/system/fs/mpfs/src</sourceRootElem>
+                <sourceRootElem>../../../../../framework/system/int/src</sourceRootElem>
+                <sourceRootElem>../../../../../framework/system/ports/src</sourceRootElem>
+                <sourceRootElem>../../../../../framework/system/reset/src</sourceRootElem>
+                <sourceRootElem>../../../../../framework/system/tmr/src</sourceRootElem>
+                <sourceRootElem>../../../../../framework/tcpip/src</sourceRootElem>
+                <sourceRootElem>../../../../../framework/driver/ethmac/src/dynamic</sourceRootElem>
+                <sourceRootElem>../../../../../framework/driver/ethphy/src/dynamic</sourceRootElem>
+                <sourceRootElem>../../../../../framework/tcpip/src/common</sourceRootElem>
+                <sourceRootElem>../../../../../framework/tcpip/src/system</sourceRootElem>
+                <sourceRootElem>../../../../../framework/tcpip/src/system/drivers</sourceRootElem>
+                <sourceRootElem>../../../../../bsp/pic32mz_ec_sk</sourceRootElem>
+                <sourceRootElem>../../../../../bsp/pic32mx_eth_sk</sourceRootElem>
+                <sourceRootElem>../../../../../bsp/pic32mx_eth_sk2</sourceRootElem>
+                <sourceRootElem>../../../../../framework/crypto/src</sourceRootElem>
+                <sourceRootElem>../../../../../framework/system/random/src</sourceRootElem>
+                <sourceRootElem>../../..</sourceRootElem>
+                <sourceRootElem>../src/system_config/pic32mz_da_sk</sourceRootElem>
+                <sourceRootElem>../src/pic32mx_eth_sk</sourceRootElem>
+                <sourceRootElem>../src/pic32mx_eth_sk2</sourceRootElem>
+                <sourceRootElem>../src/pic32mz_ec_sk</sourceRootElem>
+                <sourceRootElem>../src/pic32mz_ef_sk</sourceRootElem>
+                <sourceRootElem>../src/pic32mz_da_sk</sourceRootElem>
+                <sourceRootElem>..\src</sourceRootElem>
+                <sourceRootElem>..\src\pic32mz_ef_sk_16b</sourceRootElem>
+                <sourceRootElem>..\src\system_config\pic32mz_ef_sk_16b</sourceRootElem>
+                <sourceRootElem>..\src\pic32mx_eth_sk</sourceRootElem>
+                <sourceRootElem>..\src\system_config\pic32mx_eth_sk</sourceRootElem>
+                <sourceRootElem>..\src\pic32mx_eth_sk2</sourceRootElem>
+                <sourceRootElem>..\src\system_config\pic32mx_eth_sk2</sourceRootElem>
+                <sourceRootElem>..\src\pic32mz_ec_sk</sourceRootElem>
+                <sourceRootElem>..\src\system_config\pic32mz_ec_sk</sourceRootElem>
+                <sourceRootElem>..\src\pic32mz_ef_sk</sourceRootElem>
+                <sourceRootElem>..\src\system_config\pic32mz_ef_sk</sourceRootElem>
+                <sourceRootElem>..\src\pic32mz_da_sk</sourceRootElem>
+                <sourceRootElem>..\src\system_config\pic32mz_da_sk</sourceRootElem>
+                <sourceRootElem>..\src\pic32cz_ca70_xult</sourceRootElem>
+                <sourceRootElem>..\src\system_config\pic32cz_ca70_xult</sourceRootElem>
+            </sourceRootList>
+            <confList>
+                <confElem>
+                    <name>pic32mz_ef_sk</name>
+                    <type>2</type>
+                </confElem>
+            </confList>
+            <formatting>
+                <project-formatting-style>false</project-formatting-style>
+            </formatting>
         </data>
     </configuration>
 </project>
