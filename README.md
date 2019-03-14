@@ -59,6 +59,13 @@ If the board is plugged into a network with DHCP then the PIC fetches an address
 Here the Callgraph of the Websocket Task
 ![Callgraph](Websocket_Callgraph.jpg)
 
+The whole thing runs under FreeRTOS. The WS_SERVER_Tasks is the crucial task ("/firmware/src/ws_server.c").
+
+He opens a socket and waits for someone to knock. If so, then the WS_clientWorker ("/firmware/src/websocket_thread.c") processes the Websocket protocol and needs some help functions ("/firmware/src/websocket.c").
+
+The Websocket Protocol after the http upgrade is quite complicated with a challenge with a SHA over it and then the communication is encoded in base64. So not trivial.
+
+The advantage is that JavaScript functions in a standard web browser can then exchange asychron data with the embedded server. This allows an interactive operation for the user. And the graphical user interface is shifted from the embedded system to a user owned device (smart phone).
 
 Memory Footprint for the Websocket Functions:
 
